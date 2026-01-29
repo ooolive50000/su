@@ -47,8 +47,8 @@ npm run build
 2. 访问 [Vercel](https://vercel.com) 并使用 GitHub 账户登录
 3. 点击 "New Project" 并导入你的仓库
 4. 在配置页面确认以下设置：
-   - Framework Preset: 选择 "Other" 或让 Vercel 自动检测
-   - Build Command: `npm run build`
+   - Framework Preset: 选择 "Other"
+   - Build Command: `npx vite build`
    - Output Directory: `dist`
    - Install Command: `npm install`
    - Development Command: `npm run dev`
