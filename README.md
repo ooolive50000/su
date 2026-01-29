@@ -48,7 +48,7 @@ npm run build
 3. 点击 "New Project" 并导入你的仓库
 4. 在配置页面确认以下设置：
    - Framework Preset: 选择 "Other"
-   - Build Command: `npx vite build`
+   - Build Command: `npm run build`
    - Output Directory: `public`
    - Install Command: `npm install`
    - Development Command: `npm run dev`
