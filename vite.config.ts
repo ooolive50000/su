@@ -10,7 +10,7 @@ export default defineConfig({
   },
   base: './', // 使用相对路径，便于部署到子目录
   build: {
-    outDir: 'temp_dist',
+    outDir: 'public',
     assetsDir: 'assets',
     sourcemap: false,
     minify: 'terser',
