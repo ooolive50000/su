@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 温暖的橙色系 - 代表希望与爱心 */
+    --primary: 25 95% 53%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* 青绿色系 - 代表成长与教育 */
+    --secondary: 160 60% 40%;
+    --secondary-foreground: 0 0% 100%;
+    
+    /* 柔和蓝色 - 代表信任 */
+    --accent: 210 70% 55%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* 温暖色调 */
+    --warm: 30 90% 55%;
+    --warm-light: 35 100% 96%;
+    
+    /* 希望色调 */
+    --hope: 165 50% 45%;
+    --hope-light: 165 60% 95%;
+    
+    /* 背景与前景 */
+    --background: 40 30% 98%;
+    --foreground: 25 20% 20%;
+    
+    /* 卡片 */
+    --card: 0 0% 100%;
+    --card-foreground: 25 20% 20%;
+    
+    /* 静音色 */
+    --muted: 40 20% 94%;
+    --muted-foreground: 25 10% 45%;
+    
+    /* 边框与输入 */
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 25 95% 53%;
+    
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 
+           bg-primary text-primary-foreground font-semibold rounded-lg
+           shadow-warm transition-all duration-300
+           hover:opacity-90 hover:shadow-card-hover hover:-translate-y-0.5
+           focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 
+           bg-secondary text-secondary-foreground font-semibold rounded-lg
+           transition-all duration-300
+           hover:opacity-90 hover:-translate-y-0.5
+           focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2;
+  }
+  
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 
+           bg-transparent border-2 border-primary text-primary font-semibold rounded-lg
+           transition-all duration-300
+           hover:bg-primary hover:text-primary-foreground
+           focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+  
+  .card {
+    @apply bg-card rounded-xl p-6 shadow-card 
+           transition-all duration-300 
+           hover:shadow-card-hover hover:-translate-y-1;
+  }
+  
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-foreground;
+  }
+  
+  .section-subtitle {
+    @apply text-lg text-muted-foreground max-w-2xl;
+  }
+  
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-warm;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+}
