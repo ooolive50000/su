@@ -49,7 +49,7 @@ npm run build
 4. 在配置页面确认以下设置：
    - Framework Preset: 选择 "Other"
    - Build Command: `npx vite build`
-   - Output Directory: `dist`
+   - Output Directory: `public`
    - Install Command: `npm install`
    - Development Command: `npm run dev`
 5. 点击 "Deploy"，稍等几分钟即可完成部署
