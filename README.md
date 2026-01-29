@@ -47,12 +47,18 @@ npm run build
 2. 访问 [Vercel](https://vercel.com) 并使用 GitHub 账户登录
 3. 点击 "New Project" 并导入你的仓库
 4. 在配置页面确认以下设置：
-   - Framework Preset: 选择 "Vite"
+   - Framework Preset: 选择 "Other" 或让 Vercel 自动检测
    - Build Command: `npm run build`
    - Output Directory: `dist`
+   - Install Command: `npm install`
    - Development Command: `npm run dev`
 5. 点击 "Deploy"，稍等几分钟即可完成部署
 6. 部署完成后会生成一个类似 `https://yixin-zhijiao.vercel.app` 的链接
+7. （重要）为了让 SPA 路由正常工作，需要在 Vercel 项目设置中配置重写规则：
+   - 进入项目设置
+   - 找到 "Rewrites" 部分
+   - 添加一个重写规则：Source: `/(.*)`，Destination: `/index.html`
+8. 重新部署以应用重写规则
 
 ### 部署到其他平台
 
