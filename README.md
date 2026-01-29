@@ -56,7 +56,7 @@ npm run build
 6. 部署完成后会生成一个类似 `https://yixin-zhijiao.vercel.app` 的链接
 7. （重要）为了让 SPA 路由正常工作，需要在 Vercel 项目设置中配置重写规则：
    - 进入项目设置
-   - 找到 "Rewrites" 部分
+   - 找到 "Routes" 或 "Redirects/Rewrites" 部分
    - 添加一个重写规则：Source: `/(.*)`，Destination: `/index.html`
 8. 重新部署以应用重写规则
 
