@@ -21,3 +21,12 @@ Thumbs.db
 
 # Coverage
 coverage/
+
+# Temporary files
+nul
+*.tmp
+*.temp
+
+# Vite cache
+.vite/
+temp_public/

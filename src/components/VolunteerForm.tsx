@@ -172,11 +172,14 @@ export function VolunteerForm({ onSuccess }: VolunteerFormProps) {
               className="w-full pl-10 pr-4 py-2.5 bg-muted rounded-lg border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors text-foreground appearance-none"
             >
               <option value="">请选择地区</option>
-              <option value="云南">云南</option>
-              <option value="贵州">贵州</option>
-              <option value="四川">四川</option>
-              <option value="甘肃">甘肃</option>
-              <option value="广西">广西</option>
+              <option value="陕西">陕西省</option>
+              <option value="甘肃">甘肃省</option>
+              <option value="青海">青海省</option>
+              <option value="宁夏">宁夏回族自治区</option>
+              <option value="新疆">新疆维吾尔自治区</option>
+              <option value="四川">四川省</option>
+              <option value="重庆">重庆市</option>
+              <option value="河南">河南省</option>
               <option value="不限">不限地区</option>
             </select>
           </div>

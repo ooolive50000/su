@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { 
   Heart, 
   GraduationCap, 
@@ -16,22 +16,64 @@ import {
   Mail,
   MessageCircle,
   Shield,
-  Settings
+  Settings,
+  Loader2
 } from 'lucide-react'
 import { Modal } from './components/Modal'
 import { VolunteerForm } from './components/VolunteerForm'
 import { SchoolForm } from './components/SchoolForm'
 import { AdminPage } from './components/AdminPage'
+import { LoginPage } from './components/LoginPage'
+import { getStats, Stats } from './lib/supabase'
 
 function App() {
   const [volunteerModalOpen, setVolunteerModalOpen] = useState(false)
   const [schoolModalOpen, setSchoolModalOpen] = useState(false)
   const [showAdmin, setShowAdmin] = useState(false)
+  const [showLogin, setShowLogin] = useState(false)
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false)
+  const [stats, setStats] = useState<Stats | null>(null)
+  const [loadingStats, setLoadingStats] = useState(true)
 
-  // 如果显示管理后台，渲染AdminPage
-  if (showAdmin) {
+  // 检查是否已登录
+  useEffect(() => {
+    const authenticated = localStorage.getItem('admin_authenticated') === 'true'
+    setIsAdminAuthenticated(authenticated)
+  }, [])
+
+  const handleLoginSuccess = () => {
+    setIsAdminAuthenticated(true)
+    setShowLogin(false)
+    setShowAdmin(true)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('admin_authenticated')
+    setIsAdminAuthenticated(false)
+    setShowAdmin(false)
+  }
+
+  // 加载统计数据
+  useEffect(() => {
+    const loadStats = async () => {
+      const data = await getStats()
+      setStats(data)
+      setLoadingStats(false)
+    }
+    loadStats()
+  }, [])
+
+  // 如果显示登录页面，渲染LoginPage
+  if (showLogin) {
+    return <LoginPage onLoginSuccess={handleLoginSuccess} onBack={() => setShowLogin(false)} />
+  }
+
+  // 如果显示管理后台且已认证，渲染AdminPage
+  if (showAdmin && isAdminAuthenticated) {
     return <AdminPage onBack={() => setShowAdmin(false)} />
   }
+
+  // 否则渲染主页面
 
   return (
     <div className="min-h-screen bg-background">
@@ -40,9 +82,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-warm flex items-center justify-center">
-                <Heart className="w-5 h-5 text-primary-foreground" fill="currentColor" />
-              </div>
+              <img src="/images/logo.jpg" alt="益心支教" className="w-10 h-10 rounded-full object-cover" />
               <span className="text-xl font-bold text-foreground">益心支教</span>
             </div>
             <div className="hidden md:flex items-center gap-8">
@@ -52,6 +92,23 @@ function App() {
               <a href="#stories" className="text-muted-foreground hover:text-primary transition-colors">支教故事</a>
             </div>
             <div className="flex items-center gap-3">
+              {isAdminAuthenticated ? (
+                <button 
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 text-sm px-3 py-2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Shield className="w-4 h-4" />
+                  退出登录
+                </button>
+              ) : (
+                <button 
+                  onClick={() => setShowLogin(true)}
+                  className="flex items-center gap-2 text-sm px-3 py-2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Shield className="w-4 h-4" />
+                  管理员登录
+                </button>
+              )}
               <button onClick={() => setSchoolModalOpen(true)} className="btn-outline text-sm py-2 px-4">学校入驻</button>
               <button onClick={() => setVolunteerModalOpen(true)} className="btn-primary text-sm py-2 px-4">志愿者报名</button>
             </div>
@@ -79,8 +136,8 @@ function App() {
               </h1>
               
               <p className="text-lg text-muted-foreground max-w-xl">
-                益心支教网是聚焦贫困山区教育公平的公益信息交换平台，
-                致力于连接大学生志愿者与贫困山区学校，
+                益心支教网是聚焦西北地区教育公平的公益信息交换平台，
+                致力于连接大学生志愿者与西北地区学校，
                 共同为山区孩子铺就求知之路。
               </p>
               
@@ -97,17 +154,35 @@ function App() {
               
               <div className="flex items-center gap-8 pt-4">
                 <div>
-                  <div className="text-3xl font-bold text-primary">1,200+</div>
+                  <div className="text-3xl font-bold text-primary">
+                    {loadingStats ? (
+                      <span className="inline-block w-16 h-8 bg-primary/20 rounded animate-pulse" />
+                    ) : (
+                      `${stats?.volunteers_count.toString() || '0'}+`
+                    )}
+                  </div>
                   <div className="text-sm text-muted-foreground">志愿者加入</div>
                 </div>
                 <div className="w-px h-12 bg-border" />
                 <div>
-                  <div className="text-3xl font-bold text-secondary">86</div>
+                  <div className="text-3xl font-bold text-secondary">
+                    {loadingStats ? (
+                      <span className="inline-block w-8 h-8 bg-secondary/20 rounded animate-pulse" />
+                    ) : (
+                      stats?.schools_count.toString() || '0'
+                    )}
+                  </div>
                   <div className="text-sm text-muted-foreground">合作学校</div>
                 </div>
                 <div className="w-px h-12 bg-border" />
                 <div>
-                  <div className="text-3xl font-bold text-accent">15,000+</div>
+                  <div className="text-3xl font-bold text-accent">
+                    {loadingStats ? (
+                      <span className="inline-block w-20 h-8 bg-accent/20 rounded animate-pulse" />
+                    ) : (
+                      `${stats?.students_count.toString() || '0'}+`
+                    )}
+                  </div>
                   <div className="text-sm text-muted-foreground">受益学生</div>
                 </div>
               </div>
@@ -116,7 +191,7 @@ function App() {
             <div className="relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img 
-                  src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=800&h=600&fit=crop" 
+                  src="/images/hero.png" 
                   alt="山区学校的孩子们在教室里学习"
                   className="w-full h-auto object-cover"
                 />
@@ -292,21 +367,27 @@ function App() {
             </p>
           </div>
           
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { number: '86', label: '合作学校', suffix: '所' },
-              { number: '1,200', label: '注册志愿者', suffix: '+' },
-              { number: '15,000', label: '受益学生', suffix: '+' },
-              { number: '23', label: '覆盖省份', suffix: '个' },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-5xl md:text-6xl font-extrabold mb-2">
-                  {stat.number}<span className="text-3xl">{stat.suffix}</span>
+          {loadingStats ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="w-8 h-8 animate-spin text-primary-foreground/70" />
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[
+                { number: stats?.schools_count.toString() || '0', label: '合作学校', suffix: '所' },
+                { number: stats?.volunteers_count.toString() || '0', label: '注册志愿者', suffix: '+' },
+                { number: stats?.students_count.toString() || '0', label: '受益学生', suffix: '+' },
+                { number: stats?.provinces_count.toString() || '0', label: '覆盖省份', suffix: '个' },
+              ].map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="text-5xl md:text-6xl font-extrabold mb-2">
+                    {stat.number}<span className="text-3xl">{stat.suffix}</span>
+                  </div>
+                  <div className="text-lg opacity-90">{stat.label}</div>
                 </div>
-                <div className="text-lg opacity-90">{stat.label}</div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -323,25 +404,25 @@ function App() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&h=300&fit=crop',
-                name: '李明',
-                university: '北京大学',
-                quote: '在云南支教的一个月，我收获的远比我付出的多。那些孩子们纯真的笑容，是我最珍贵的回忆。',
-                location: '云南·丽江'
+                image: '/images/stories/story1_real.jpg',
+                name: '刘霄炫',
+                university: '西安交通大学',
+                quote: '在柞水县实验初级中学支教期间，我用橡皮泥制作细胞模型进行生物教学，让抽象的知识变得生动有趣，最终班级生物优秀率提升到80%以上。',
+                location: '陕西·柞水'
               },
               {
-                image: 'https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&h=300&fit=crop',
-                name: '王雪',
-                university: '复旦大学',
-                quote: '教育不仅是知识的传递，更是希望的播种。我在贵州看到了教育改变命运的力量。',
-                location: '贵州·毕节'
+                image: '/images/stories/yao_zhige.png',
+                name: '姚智戈',
+                university: '西安航空学院',
+                quote: '作为戍边支教西部计划志愿者，我有幸获得习近平总书记回信勉励，支教课堂登上央视新闻联播。深受鼓舞的我，至今坚守在新疆支教岗位上，用青春奉献祖国边疆教育事业。',
+                location: '新疆·谢依特小学'
               },
               {
-                image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=300&fit=crop',
-                name: '张伟',
-                university: '浙江大学',
-                quote: '线上支教让我能够跨越地域限制，帮助更多的孩子。科技让公益变得更加便捷。',
-                location: '四川·凉山'
+                image: '/images/stories/ma_jiaqi.jpg',
+                name: '马嘉琪',
+                university: '西安工业大学',
+                quote: '作为2024届西部计划志愿者，我在铜川市宜君县第一中学负责八年级物理教学并担任代班主任。通过创新教学方法、关爱每一位学生，这段支教经历坚定了我投身教育事业的决心。',
+                location: '陕西·宜君'
               },
             ].map((story, index) => (
               <div key={index} className="card group">
@@ -407,9 +488,7 @@ function App() {
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                  <Heart className="w-5 h-5 text-primary-foreground" fill="currentColor" />
-                </div>
+                <img src="/images/logo.jpg" alt="益心支教" className="w-10 h-10 rounded-full object-cover" />
                 <span className="text-xl font-bold">益心支教</span>
               </div>
               <p className="text-primary-foreground/70 mb-6 max-w-md">
@@ -452,7 +531,7 @@ function App() {
                 </li>
                 <li className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
-                  北京市海淀区
+                  西安航空学院莲湖校区
                 </li>
               </ul>
             </div>
@@ -461,11 +540,11 @@ function App() {
           <div className="pt-8 border-t border-primary-foreground/10 flex items-center justify-between text-primary-foreground/50 text-sm">
             <p>© 2024 益心支教网 版权所有 | 京ICP备XXXXXXXX号</p>
             <button 
-              onClick={() => setShowAdmin(true)}
+              onClick={isAdminAuthenticated ? () => setShowAdmin(true) : () => setShowLogin(true)}
               className="flex items-center gap-2 hover:text-primary-foreground transition-colors"
             >
               <Settings className="w-4 h-4" />
-              管理后台
+              {isAdminAuthenticated ? '管理后台' : '管理员登录'}
             </button>
           </div>
         </div>

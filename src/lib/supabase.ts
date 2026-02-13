@@ -123,3 +123,33 @@ export async function deleteSchool(id: number): Promise<boolean> {
   }
   return true
 }
+
+// 统计数据接口
+export interface Stats {
+  schools_count: number
+  volunteers_count: number
+  students_count: number
+  provinces_count: number
+}
+
+// 获取统计数据
+export async function getStats(): Promise<Stats> {
+  // 并行获取各项统计数据
+  const [schoolsRes, volunteersRes] = await Promise.all([
+    supabase.from('schools').select('id, province'),
+    supabase.from('volunteers').select('id')
+  ])
+
+  const schools = schoolsRes.data || []
+  const volunteers = volunteersRes.data || []
+
+  // 计算覆盖省份数量
+  const provinces = new Set(schools.map(s => s.province)).size
+
+  return {
+    schools_count: schools.length,
+    volunteers_count: volunteers.length,
+    students_count: schools.length * 300, // 假设每所学校平均300名学生
+    provinces_count: provinces
+  }
+}
