@@ -1,0 +1,17 @@
+node_modules
+dist
+.git
+.gitignore
+README.md
+.env
+.env.local
+.nyc_output
+coverage
+.nyc_output
+.coverage
+.vscode
+.idea
+*.log
+*.md
+Dockerfile
+.dockerignore

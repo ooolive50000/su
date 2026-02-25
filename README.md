@@ -41,7 +41,17 @@ npm run build
 
 ## 部署
 
-### 部署到 Vercel（推荐）
+### 部署到 Zeabur（推荐）
+
+1. 在 Zeabur 平台创建新项目
+2. 连接你的 GitHub 仓库
+3. 选择部署方式：
+   - **自动部署**：Zeabur 会自动检测并使用 `zeabur.json` 配置
+   - **Docker 部署**：使用项目中的 `Dockerfile`
+4. 部署配置会自动应用，无需额外设置
+5. 部署完成后会生成项目访问链接
+
+### 部署到 Vercel
 
 1. 在 GitHub 上创建仓库并推送代码
 2. 访问 [Vercel](https://vercel.com) 并使用 GitHub 账户登录
@@ -87,7 +97,9 @@ npm run build
 - `src/lib/` - 工具函数和配置
 - `public/` - 静态资源文件
 - `vite.config.ts` - Vite 配置文件
+- `zeabur.json` - Zeabur 部署配置
 - `vercel.json` - Vercel 部署配置
+- `Dockerfile` - Docker 部署配置
 
 ## 自定义
 
