@@ -2,6 +2,8 @@
 
 这是一个公益性质的支教信息平台，旨在连接大学生志愿者与贫困山区学校，促进教育公平。
 
+[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com)
+
 ## 功能特性
 
 - 志愿者报名系统
@@ -41,15 +43,34 @@ npm run build
 
 ## 部署
 
-### 部署到 Zeabur（推荐）
+### 部署到 Zeabur（推荐）✨
 
-1. 在 Zeabur 平台创建新项目
+#### 方式一：一键部署
+1. 点击 [Deploy on Zeabur](https://zeabur.com) 按钮
 2. 连接你的 GitHub 仓库
-3. 选择部署方式：
-   - **自动部署**：Zeabur 会自动检测并使用 `zeabur.json` 配置
-   - **Docker 部署**：使用项目中的 `Dockerfile`
-4. 部署配置会自动应用，无需额外设置
-5. 部署完成后会生成项目访问链接
+3. Zeabur 会自动识别项目配置并部署
+4. 部署完成后会生成访问链接
+
+#### 方式二：手动部署
+1. 在 Zeabur 平台创建新项目
+2. 连接你的 GitHub 仓库或使用 Docker 部署
+3. **重要**：在 Zeabur 控制台中设置环境变量：
+   - `VITE_SUPABASE_URL` - 你的 Supabase 项目 URL
+   - `VITE_SUPABASE_ANON_KEY` - 你的 Supabase 公开 API 密钥
+4. Zeabur 会自动检测并使用 `zeabur.json` 配置
+5. 构建命令：`npm run build`
+6. 输出目录：`dist`
+7. 端口：8080（已自动配置）
+8. 部署完成后会生成项目访问链接
+
+**本地测试构建**：
+```bash
+npm install
+npm run build
+npm run preview
+```
+
+详细部署说明请查看 [ZEABUR_DEPLOY.md](./ZEABUR_DEPLOY.md)
 
 ### 部署到 Vercel
 

@@ -5,13 +5,14 @@ dist
 README.md
 .env
 .env.local
+.env.example
 .nyc_output
 coverage
-.nyc_output
-.coverage
 .vscode
 .idea
 *.log
 *.md
 Dockerfile
 .dockerignore
+zeabur.json
+vercel.json

@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.env
+.env.local
+.nyc_output
+coverage
+.vscode
+.idea
+*.log
+DEPLOY_CHECKLIST.md
+ZEABUR_DEPLOY.md
+LOCAL_DEPLOY.md
+nu_

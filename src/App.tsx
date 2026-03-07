@@ -523,11 +523,11 @@ function App() {
               <ul className="space-y-2 text-primary-foreground/70">
                 <li className="flex items-center gap-2">
                   <Mail className="w-4 h-4" />
-                  contact@yixinzhijiao.org
+                  1504801573@qq.com
                 </li>
                 <li className="flex items-center gap-2">
                   <Phone className="w-4 h-4" />
-                  400-888-8888
+                  19929705220
                 </li>
                 <li className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
@@ -538,7 +538,7 @@ function App() {
           </div>
           
           <div className="pt-8 border-t border-primary-foreground/10 flex items-center justify-between text-primary-foreground/50 text-sm">
-            <p>© 2024 益心支教网 版权所有 | 京ICP备XXXXXXXX号</p>
+            <p>© 2024 益心支教网 版权所有</p>
             <button 
               onClick={isAdminAuthenticated ? () => setShowAdmin(true) : () => setShowLogin(true)}
               className="flex items-center gap-2 hover:text-primary-foreground transition-colors"
