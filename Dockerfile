@@ -1,7 +1,7 @@
-# 使用 Node.js 18 作为基础镜像
-FROM node:18-alpine
+FROM node:22-alpine
+LABEL "language"="nodejs"
+LABEL "framework"="vite"
 
-# 设置工作目录
 WORKDIR /app
 
 # 复制 package.json

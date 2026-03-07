@@ -6,8 +6,12 @@ declare global {
   }
 }
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://wqkpyhazxhmfchzjdakv.supabase.co'
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sb_publishable__VZecx64JHBCEfPueJYcYA_3fls4QYE'
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('❌ Supabase 配置缺失！请设置 VITE_SUPABASE_URL 和 VITE_SUPABASE_ANON_KEY 环境变量')
+}
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 

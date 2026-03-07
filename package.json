@@ -8,6 +8,7 @@
     "build": "vite build",
     "vercel-build": "vite build",
     "zeabur-build": "vite build",
+    "start": "serve dist -l 8080",
     "type-check": "tsc --noEmit",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -16,7 +17,8 @@
     "@supabase/supabase-js": "^2.39.0",
     "lucide-react": "^0.263.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "serve": "^14.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
